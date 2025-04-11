@@ -64,11 +64,10 @@ This feature allows associating a user with a bank account. It establishes a rel
 3. Save the association in the `account_user` table.
 
 #### Database Involvement:
-- **Tables**: `user`, `account`, `account_user`
+- **Tables**: `user`, `account`, `account_user` ,`transaction`
 - **Composite Key**: `AccountUserId` (combines `user_id` and `account_id`)
 
 #### API Endpoint:
-## API Endpoints
 
 ### User Management
 1. **Create User**
@@ -115,7 +114,7 @@ This feature allows associating a user with a bank account. It establishes a rel
       ```
 
 
-3 **Deposit**
+3. **Deposit**
 - **Endpoint**: `POST /api/transactions/deposit`
 - **Description**: Deposits money into an account by creating a transaction.
 - **Request Body**:
@@ -125,7 +124,7 @@ This feature allows associating a user with a bank account. It establishes a rel
     "amount": 500.00
   }
   ```
-- **Response**: 201 Created
+- **Response**: 200 OK
   ```json
   {
           "id": 1,
@@ -135,7 +134,7 @@ This feature allows associating a user with a bank account. It establishes a rel
       }
   ```
 
-4**Withdraw**
+4. **Withdraw**
     - **Endpoint**: `POST /api/transactions/withdraw`
     - **Description**: Withdraws money from an account by creating a transaction.
     - **Request Body**:
@@ -145,7 +144,7 @@ This feature allows associating a user with a bank account. It establishes a rel
         "amount": 200.00
       }
       ```
-    - **Response**: 201 Created
+    - **Response**: 200 OK
       ```json
       {
           "id": 1,
