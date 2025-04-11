@@ -1,5 +1,6 @@
 package com.marlowbank.marlow_atm.service;
 
+import org.springframework.stereotype.Service;
 import com.marlowbank.marlow_atm.model.Account;
 import com.marlowbank.marlow_atm.model.AccountUser;
 import com.marlowbank.marlow_atm.model.AccountUserId;
@@ -7,46 +8,25 @@ import com.marlowbank.marlow_atm.model.User;
 import com.marlowbank.marlow_atm.repository.AccountRepository;
 import com.marlowbank.marlow_atm.repository.AccountUserRepository;
 import com.marlowbank.marlow_atm.repository.UserRepository;
-import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Optional;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class AccountService {
+public class AccountUserService {
 
-    @Autowired
-    private AccountRepository accountRepository;
+    private final AccountRepository accountRepository;
+    private final UserRepository userRepository;
+    private final AccountUserRepository accountUserRepository;
 
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private AccountUserRepository accountUserRepository;
-
-    public Optional<Account> getAccountById(Long accountId) {
-        return accountRepository.findById(accountId);
-    }
-
-    public Account createAccount(Account account) {
-        return accountRepository.save(account);
-    }
-
-    public Account getAccountByAccountNumber(String accountNumber) {
-        return accountRepository.findByAccountNumber(accountNumber);
-    }
-
-    public List<Account> getAllAccounts() {
-        return accountRepository.findAll();
+    public AccountUserService(AccountRepository accountRepository, UserRepository userRepository, AccountUserRepository accountUserRepository) {
+        this.accountRepository = accountRepository;
+        this.userRepository = userRepository;
+        this.accountUserRepository = accountUserRepository;
     }
 
     @Transactional
-    public void addUserToAccount(Long accountId, Long userId) {
+    public void associateUserWithAccount(Long userId, Long accountId) {
         Account account = accountRepository.findById(accountId)
                 .orElseThrow(() -> new RuntimeException("Account not found"));
-
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
@@ -57,6 +37,9 @@ public class AccountService {
                 .build());
         accountUser.setAccount(account);
         accountUser.setUser(user);
+
+        account.getAccountUsers().add(accountUser);
+        user.getAccountUsers().add(accountUser);
 
         accountUserRepository.save(accountUser);
     }

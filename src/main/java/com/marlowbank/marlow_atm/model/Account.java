@@ -13,46 +13,21 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+@Data
 @Entity
 @Table(name = "accounts")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class Account {
-    // Getters & Setters
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Setter
-    @Column(name = "account_number", unique = true, nullable = false, updatable = false)
     private String accountNumber;
 
-    @Setter
-    @Column(nullable = false)
-    @PositiveOrZero
-    private double balance;
+    private Double balance;
 
-    @Setter
-    @Column(nullable = false)
     private String name;
 
-    @CreationTimestamp
-    private Timestamp createdAt;
-
-    // Relationship with transactions
-    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonManagedReference
-    private List<Transaction> transactions = new ArrayList<>();
-
-    // Relationship with users (for joint accounts)
-    @ManyToMany
-    @JoinTable(
-            name = "account_users",
-            joinColumns = @JoinColumn(name = "account_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id")
-    )
-    private Set<User> users = new HashSet<>();
-
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<AccountUser> accountUsers = new HashSet<>();
 }

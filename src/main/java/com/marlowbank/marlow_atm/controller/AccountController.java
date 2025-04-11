@@ -3,6 +3,7 @@ package com.marlowbank.marlow_atm.controller;
 import com.marlowbank.marlow_atm.model.Account;
 import com.marlowbank.marlow_atm.repository.AccountRepository;
 import com.marlowbank.marlow_atm.service.AccountService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,35 +13,21 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/accounts")
+@RequiredArgsConstructor
 public class AccountController {
 
-    @Autowired
-    private AccountRepository accountRepository;
-
-    @Autowired
-    private AccountService accountService;
+    private final AccountService accountService;
 
     @PostMapping
     public Account createAccount(@RequestBody Account account) {
-        return accountRepository.save(account);
+        return accountService.createAccount(account);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Account> getAccountById(@PathVariable Long accountId) {
-        Optional<Account> account = accountService.getAccountById(accountId);
+    public ResponseEntity<Account> getAccountById(@PathVariable Long id) {
+        Optional<Account> account = accountService.getAccountById(id);
         return account.map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
-    }
-
-
-    @GetMapping("/{accountNumber}")
-    public Account getAccount(@PathVariable String accountNumber) {
-        return accountRepository.findByAccountNumber(accountNumber);
-    }
-
-    @GetMapping
-    public List<Account> getAllAccounts() {
-        return accountRepository.findAll();
     }
 
     @PostMapping("/{accountId}/users/{userId}")
@@ -49,6 +36,3 @@ public class AccountController {
         return ResponseEntity.ok("User added to account successfully.");
     }
 }
-
-
-
