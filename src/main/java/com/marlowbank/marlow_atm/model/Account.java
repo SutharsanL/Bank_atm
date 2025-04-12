@@ -8,10 +8,7 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Data
 @Entity
@@ -28,6 +25,20 @@ public class Account {
 
     private String name;
 
-    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "account", fetch = FetchType.LAZY)
+    @JsonManagedReference
     private Set<AccountUser> accountUsers = new HashSet<>();
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id); // Use only immutable fields
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Account account = (Account) obj;
+        return Objects.equals(id, account.id);
+    }
 }

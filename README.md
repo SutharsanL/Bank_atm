@@ -113,8 +113,13 @@ This feature allows associating a user with a bank account. It establishes a rel
       }
       ```
 
+3. **Joint Account**
+- **Endpoint**: `POST /api/accounts/{accountid}/users/{userid}`
+- **Description**: joint Account with user, body is not required.
+-  **Response**: 200 OK
+- **ResponseBody**: User added to account successfully.
 
-3. **Deposit**
+4. **Deposit**
 - **Endpoint**: `POST /api/transactions/deposit`
 - **Description**: Deposits money into an account by creating a transaction.
 - **Request Body**:
@@ -134,7 +139,7 @@ This feature allows associating a user with a bank account. It establishes a rel
       }
   ```
 
-4. **Withdraw**
+5. **Withdraw**
     - **Endpoint**: `POST /api/transactions/withdraw`
     - **Description**: Withdraws money from an account by creating a transaction.
     - **Request Body**:

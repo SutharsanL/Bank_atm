@@ -1,6 +1,7 @@
 package com.marlowbank.marlow_atm.controller;
 
 import com.marlowbank.marlow_atm.model.Account;
+import com.marlowbank.marlow_atm.model.User;
 import com.marlowbank.marlow_atm.repository.AccountRepository;
 import com.marlowbank.marlow_atm.service.AccountService;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,13 @@ import java.util.Optional;
 public class AccountController {
 
     private final AccountService accountService;
+
+    private final AccountRepository accountRepository;
+
+    @GetMapping
+    public List<Account> getAllUsers() {
+        return accountRepository.findAll();
+    }
 
     @PostMapping
     public Account createAccount(@RequestBody Account account) {
