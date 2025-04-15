@@ -27,7 +27,8 @@ public class Transaction {
     private double amount;
 
     @NotNull
-    private String type; // e.g., "DEPOSIT", "WITHDRAWAL"
+    @Enumerated(EnumType.STRING)
+    private TransactionType type; // e.g., "DEPOSIT", "WITHDRAWAL"
 
     @CreationTimestamp
     private Timestamp transactionDate;

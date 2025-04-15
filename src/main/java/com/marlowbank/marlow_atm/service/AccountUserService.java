@@ -8,6 +8,7 @@ import com.marlowbank.marlow_atm.model.User;
 import com.marlowbank.marlow_atm.repository.AccountRepository;
 import com.marlowbank.marlow_atm.repository.AccountUserRepository;
 import com.marlowbank.marlow_atm.repository.UserRepository;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -23,7 +24,7 @@ public class AccountUserService {
         this.accountUserRepository = accountUserRepository;
     }
 
-    @Transactional
+    @Transactional(isolation =  Isolation.READ_COMMITTED)
     public void associateUserWithAccount(Long userId, Long accountId) {
         Account account = accountRepository.findById(accountId)
                 .orElseThrow(() -> new RuntimeException("Account not found"));

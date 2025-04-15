@@ -15,12 +15,12 @@ public class AccountUser {
     @ManyToOne
     @MapsId("accountId")
     @JoinColumn(name = "account_id")
-    @JsonBackReference
+    @JsonBackReference(value = "account-reference")
     private Account account;
 
     @ManyToOne
     @MapsId("userId")
-    @JsonBackReference
     @JoinColumn(name = "user_id")
+    @JsonBackReference(value = "user-reference")
     private User user;
 }

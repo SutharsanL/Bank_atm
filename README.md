@@ -76,23 +76,30 @@ This feature allows associating a user with a bank account. It establishes a rel
     - **Request Body**:
       ```json
       {
-        "name": "entername",
-        "account": {
-        "id": 3
-        }
+        "name": "entername"
       }
       ```
     - **Response**: 201 Created
       ```json
         {
         "id": 3,
-        "name": "enteredname",
-        "accountUsers": []
+        "name": "enteredname"
         }
       ```
-
+2. **Get User**
+    - **Endpoint**: `GET /api/users/`
+    - **Description**: Retrieves all users.
+    - **Response**: 200 OK
+      ```json
+      [
+      {
+        "id": 1,
+        "name": "User Name"
+      }
+      ]
+      ```
 ### Account Management
-2. **Create Account**
+3. **Create Account**
     - **Endpoint**: `POST /api/accounts`
     - **Description**: Creates a new account.
     - **Request Body**:
@@ -112,14 +119,28 @@ This feature allows associating a user with a bank account. It establishes a rel
         "balance": 1000.00
       }
       ```
-
-3. **Joint Account**
+4. **Get Account**
+    - **Endpoint**: `GET /api/accounts`
+    - **Description**: Retrieves all accounts.
+    - **Response**: 200 OK
+      ```json
+      [
+        {
+          "id": 1,
+          "accountNumber": "001",
+          "name": "Account Name",
+          "balance": 1000.00
+        }
+      ]
+      ```
+      
+5. **Joint Account**
 - **Endpoint**: `POST /api/accounts/{accountid}/users/{userid}`
 - **Description**: joint Account with user, body is not required.
 -  **Response**: 200 OK
 - **ResponseBody**: User added to account successfully.
 
-4. **Deposit**
+6. **Deposit**
 - **Endpoint**: `POST /api/transactions/deposit`
 - **Description**: Deposits money into an account by creating a transaction.
 - **Request Body**:
@@ -139,7 +160,7 @@ This feature allows associating a user with a bank account. It establishes a rel
       }
   ```
 
-5. **Withdraw**
+7. **Withdraw**
     - **Endpoint**: `POST /api/transactions/withdraw`
     - **Description**: Withdraws money from an account by creating a transaction.
     - **Request Body**:

@@ -1,5 +1,6 @@
 package com.marlowbank.marlow_atm.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -26,7 +27,7 @@ public class Account {
     private String name;
 
     @OneToMany(mappedBy = "account", fetch = FetchType.LAZY)
-    @JsonManagedReference
+    @JsonIgnore
     private Set<AccountUser> accountUsers = new HashSet<>();
 
     @Override
