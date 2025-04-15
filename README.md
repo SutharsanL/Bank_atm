@@ -147,39 +147,44 @@ This feature allows associating a user with a bank account. It establishes a rel
   ```json
   {
     "accountId": 1,
-    "amount": 500.00
+    "amount": 500.00,
+    "userId": 1
   }
   ```
 - **Response**: 200 OK
   ```json
   {
-          "id": 1,
-          "amount": 500.0,
-          "type": "DEPOSIT",
-          "transactionDate": "2025-04-11T13:57:04.998+00:00"
+    "transactionId": 7,
+    "accountId": 1,
+    "amount": 500.0,
+    "type": "DEPOSIT",
+    "updatedBalance": 81900.0,
+    "timestamp": "2025-04-15T16:18:02.204+00:00"
       }
   ```
 
-7. **Withdraw**
-    - **Endpoint**: `POST /api/transactions/withdraw`
-    - **Description**: Withdraws money from an account by creating a transaction.
-    - **Request Body**:
-      ```json
-      {
+  7. **Withdraw**
+      - **Endpoint**: `POST /api/transactions/withdraw`
+      - **Description**: Withdraws money from an account by creating a transaction.
+      - **Request Body**:
+        ```json
+        {
+          "accountId": 1,
+          "amount": 200.00,
+          "userId": 1
+        }
+        ```
+      - **Response**: 200 OK
+        ```json
+        {
+        "transactionId": 13,
         "accountId": 1,
-        "amount": 200.00
-      }
-      ```
-    - **Response**: 200 OK
-      ```json
-      {
-          "id": 1,
-          "amount": 200.0,
-          "type": "WITHDRAWAL",
-          "transactionDate": "2025-04-11T13:57:04.998+00:00"
-      }
-      ```
-      
+        "amount": 650.0,
+        "type": "WITHDRAWAL",
+        "updatedBalance": 81000.0,
+        "timestamp": "2025-04-15T16:18:02.204+00:00"
+        }
+        ``` 
 ## Database Schema
 ### Tables
 1. **`account`**: Stores account details.

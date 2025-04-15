@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "transactions")
@@ -37,4 +38,9 @@ public class Transaction {
     @JoinColumn(name = "account_id", nullable = false)
     @JsonBackReference
     private Account account;
+
+    @NotNull
+    private Long userId;
+
+
 }

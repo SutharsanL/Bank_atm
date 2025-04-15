@@ -1,5 +1,7 @@
 package com.marlowbank.marlow_atm.service;
 
+import com.marlowbank.marlow_atm.exception.AccountNotFoundException;
+import com.marlowbank.marlow_atm.exception.UserNotFoundException;
 import org.springframework.stereotype.Service;
 import com.marlowbank.marlow_atm.model.Account;
 import com.marlowbank.marlow_atm.model.AccountUser;
@@ -27,9 +29,13 @@ public class AccountUserService {
     @Transactional(isolation =  Isolation.READ_COMMITTED)
     public void associateUserWithAccount(Long userId, Long accountId) {
         Account account = accountRepository.findById(accountId)
-                .orElseThrow(() -> new RuntimeException("Account not found"));
+                .orElseThrow(() -> new AccountNotFoundException("Account not found"));
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
+
+        if (accountUserRepository.existsByAccountIdAndUserId(accountId, userId)) {
+            throw new IllegalStateException("User is already associated with this account");
+        }
 
         AccountUser accountUser = new AccountUser();
         accountUser.setId(AccountUserId.builder()

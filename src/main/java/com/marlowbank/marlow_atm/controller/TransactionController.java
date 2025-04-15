@@ -1,5 +1,7 @@
 package com.marlowbank.marlow_atm.controller;
 
+import com.marlowbank.marlow_atm.dto.TransactionRequest;
+import com.marlowbank.marlow_atm.dto.TransactionResponse;
 import com.marlowbank.marlow_atm.model.Transaction;
 import com.marlowbank.marlow_atm.service.TransactionService;
 import org.springframework.http.ResponseEntity;
@@ -16,14 +18,16 @@ public class TransactionController {
     }
 
     @PostMapping("/deposit")
-    public ResponseEntity<Transaction> deposit(@RequestBody TransactionRequest request) {
-        Transaction transaction = transactionService.deposit(request.getAccountId(), request.getAmount());
-        return ResponseEntity.ok(transaction);
+    public ResponseEntity<TransactionResponse> deposit(@RequestBody TransactionRequest request) {
+        TransactionResponse transactionResponse = transactionService.deposit(
+                request.getAccountId(), request.getAmount(), request.getUserId());
+        return ResponseEntity.ok(transactionResponse);
     }
 
     @PostMapping("/withdraw")
-    public ResponseEntity<Transaction> withdraw(@RequestBody TransactionRequest request) {
-        Transaction transaction = transactionService.withdraw(request.getAccountId(), request.getAmount());
-        return ResponseEntity.ok(transaction);
+    public ResponseEntity<TransactionResponse> withdraw(@RequestBody TransactionRequest request) {
+        TransactionResponse transactionResponse = transactionService.withdraw(
+                request.getAccountId(), request.getAmount(), request.getUserId());
+        return ResponseEntity.ok(transactionResponse);
     }
 }

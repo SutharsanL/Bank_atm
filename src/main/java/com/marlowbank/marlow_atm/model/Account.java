@@ -30,6 +30,7 @@ public class Account {
     @JsonIgnore
     private Set<AccountUser> accountUsers = new HashSet<>();
 
+
     @Override
     public int hashCode() {
         return Objects.hash(id); // Use only immutable fields
